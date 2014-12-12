@@ -54,8 +54,8 @@ for(int i=0;i<360;i++){
 	System.out.println("Min "+i+"\t"+root.getTemp()+ "\t"+root.getChildren()[0].getTemp()+ "\t"+root.getChildren()[0].getChildren()[0].getTemp()+"\t"+root.getChildren()[0].getChildren()[0].getChildren()[0].getTemp()+"\t");
 }
 JSONObject jo = new JSONObject();
-jo=root.buildConfig();
-System.out.println(jo.toString(2));
+//jo=root.buildConfig();
+//System.out.println(jo.toString(2));
 int a =2;
 int b=a+2;
 
