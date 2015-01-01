@@ -42,7 +42,6 @@ public class ModelPersistence {
 			e1.printStackTrace();
 		}
 		StringBuilder content = new StringBuilder();
-
 		boolean check = true;
 		while (check) {
 			try {

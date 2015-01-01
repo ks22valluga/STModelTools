@@ -11,7 +11,7 @@ import com.ks22valluga.util.ModelPersistence;
 
 public class TestBasicFileReadWrite {
 	
-	private String inputText="one\ntwo\nthree\nfour";
+	private String inputText="one\ntwo\nthree\nfour{}[]:";
 	private static String fileName="testFile.txt";
 
 	@Test
