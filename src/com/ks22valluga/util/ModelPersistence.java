@@ -7,6 +7,9 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class ModelPersistence {
 
 	public boolean write(String fileName, String inputText) {
@@ -61,5 +64,37 @@ public class ModelPersistence {
 			e.printStackTrace();
 		}
 		return content.toString();
+	}
+
+	public void createV1ModelFile(String filePath, JSONObject model) {
+		String verStr = "1.0";
+		JSONObject jo = new JSONObject();
+		jo.put("version", verStr);
+		jo.put("model", model);
+		write(filePath, jo.toString());
+	}
+
+	public JSONObject getV1ModelFromFile(String filePath) {
+		JSONObject retJo = new JSONObject();
+
+		JSONObject jo;
+		try {
+			jo = new JSONObject(read(filePath));
+			if (jo.has("version")) {
+				String version = jo.getString("version");
+				if (version.equals("1.0")) {
+					retJo = jo.getJSONObject("model");
+				} else {
+					retJo.put("error",
+							"Selected file is not the expected version");
+				}
+			} else {
+				retJo.put("error",
+						"Selected file does not have version attribute");
+			}
+		} catch (JSONException e) {
+			retJo.put("error", "Selected file does not contain valid JSON");
+		}
+		return retJo;
 	}
 }
