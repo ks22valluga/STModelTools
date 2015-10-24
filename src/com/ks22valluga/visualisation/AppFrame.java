@@ -3,15 +3,8 @@ package com.ks22valluga.visualisation;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.SpringLayout;
-import java.awt.Canvas;
 import javax.swing.JTextPane;
 import java.awt.Color;
-import java.awt.Font;
-import javax.swing.UIManager;
-import java.awt.Rectangle;
-import java.awt.ComponentOrientation;
-import javax.swing.JPanel;
 
 public class AppFrame {
 
@@ -66,10 +59,16 @@ public class AppFrame {
 		textPane.setBounds(0, 200, 443, 70);
 		frmStmodelvis.getContentPane().add(textPane);
 		
-		MyPanel panel = new MyPanel();
-		panel.setBounds(0, 0, 443, 200);
+		for(int i= 0;i<20;i++){
+		TempColourPanel panel = new TempColourPanel();
+		panel.setBounds(20+(i*10), 20, 10, 10);
+		panel.setMinTemp(-5f);
+		panel.setMaxTemp(30.0f);
+		float factor = new Float(i);
+		float temperature=10.0f+(factor/1);
+		panel.setTemperature(temperature);
 		frmStmodelvis.getContentPane().add(panel);
-		
+        }
 		
 	}
 }
