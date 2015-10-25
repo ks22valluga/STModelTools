@@ -6,12 +6,14 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 public class TempColourPanel extends JPanel {
 	private float minTemp=-20f;
 	private float maxTemp=100f;
 	private Color currentColor=new Color(0, 0, 0);
+	private int connVal;
 
 	/**
 	 * 
@@ -26,7 +28,32 @@ public class TempColourPanel extends JPanel {
 		int height =(int) dimen.getHeight();
 		int width=(int) dimen.getWidth();
 		g2d.setColor(currentColor);
-		g2d.fillRect(0, 0, width, height);
+		g2d.fillRect(1, 1, width-2, height-2);
+		g2d.setColor(Color.black);
+
+	    //this.setBorder(BorderFactory.createLineBorder(Color.black));
+		//top=1 
+		//right=2
+		//bottom=4
+		//left=8
+		if((this.connVal&1)==1){
+			//set top connector
+			g2d.fillRect((width/2)+1, 0, 1, 1);
+			//g2d.fillRect(width, (height/2)+1, 1, 1);
+		}
+		if((this.connVal&2)==2){
+			//set right connector
+			g2d.fillRect(width-1, (height/2)+1, 1, 1);
+
+		}
+		if((this.connVal&4)==4){
+			//set bottom connector
+			g2d.fillRect((width/2)+1, height-1, 1, 1);
+		}
+		if((this.connVal&8)==8){
+			//set left connector
+			g2d.fillRect(0, (height/2)+1, 1, 1);
+		}
 	}
 	
 	public void setTemperature(float temperature){
@@ -76,6 +103,10 @@ public class TempColourPanel extends JPanel {
 
 	public void setMaxTemp(float maxTemp) {
 		this.maxTemp = maxTemp;
+	}
+	public void setConnector(Connector conn){
+		this.connVal=conn.getConnectorBitMapValue();
+	
 	}
 
 }

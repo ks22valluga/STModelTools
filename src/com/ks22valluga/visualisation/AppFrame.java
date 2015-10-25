@@ -59,14 +59,27 @@ public class AppFrame {
 		textPane.setBounds(0, 200, 443, 70);
 		frmStmodelvis.getContentPane().add(textPane);
 		
-		for(int i= 0;i<20;i++){
+		int noOfCells=20;
+		for(int i= 0;i<noOfCells;i++){
 		TempColourPanel panel = new TempColourPanel();
-		panel.setBounds(20+(i*10), 20, 10, 10);
+		panel.setBounds(20+(i*15), 20, 15, 15);
 		panel.setMinTemp(-5f);
 		panel.setMaxTemp(30.0f);
 		float factor = new Float(i);
 		float temperature=10.0f+(factor/1);
 		panel.setTemperature(temperature);
+		
+		Connector conn = new Connector();
+		if(i==0){	
+			conn.addConnector(ConnectorEnum.right);
+		} else if(i==(noOfCells-1)){
+			conn.addConnector(ConnectorEnum.left);			
+		} else{
+			conn.addConnector(ConnectorEnum.right);
+			conn.addConnector(ConnectorEnum.left);
+		}
+		
+		panel.setConnector(conn);
 		frmStmodelvis.getContentPane().add(panel);
         }
 		
