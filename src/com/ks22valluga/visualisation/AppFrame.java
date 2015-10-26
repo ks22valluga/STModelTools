@@ -5,10 +5,14 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JTextPane;
 import java.awt.Color;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.JLabel;
 
 public class AppFrame {
 
 	private JFrame frmStmodelvis;
+	private JTextField currentTemperature;
 
 	/**
 	 * Launch the application.
@@ -43,25 +47,24 @@ public class AppFrame {
 		frmStmodelvis.setBounds(100, 100, 450, 300);
 		frmStmodelvis.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmStmodelvis.getContentPane().setLayout(null);
-		/*
-		MyPanel canvas = new MyPanel();
-		canvas.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-		canvas.setFont(UIManager.getFont("FileChooser.listFont"));
-		canvas.setBackground(Color.LIGHT_GRAY);
-		canvas.setForeground(Color.WHITE);
-		canvas.setBounds(0, 0, 443, 200);
-		frmStmodelvis.getContentPane().add(canvas);
-		*/
 		
-		JTextPane textPane = new JTextPane();
-		textPane.setBackground(Color.WHITE);
-		textPane.setEditable(false);
-		textPane.setBounds(0, 200, 443, 70);
-		frmStmodelvis.getContentPane().add(textPane);
+		JPanel panel_1 = new JPanel();
+		panel_1.setBounds(0, 231, 443, 41);
+		frmStmodelvis.getContentPane().add(panel_1);
+		
+		JLabel lblSelectedTemp = new JLabel("Selected Temp");
+		panel_1.add(lblSelectedTemp);
+		
+		currentTemperature = new JTextField();
+		currentTemperature.setText("null");
+		
+		panel_1.add(currentTemperature);
+		currentTemperature.setColumns(10);
 		
 		int noOfCells=20;
 		for(int i= 0;i<noOfCells;i++){
 		TempColourPanel panel = new TempColourPanel();
+		panel.setJtxtTempVal(currentTemperature);
 		panel.setBounds(20+(i*15), 20, 15, 15);
 		panel.setMinTemp(-5f);
 		panel.setMaxTemp(30.0f);

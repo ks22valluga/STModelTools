@@ -5,20 +5,30 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.event.FocusListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
-public class TempColourPanel extends JPanel {
+public class TempColourPanel extends JPanel implements MouseMotionListener{
 	private float minTemp=-20f;
 	private float maxTemp=100f;
 	private Color currentColor=new Color(0, 0, 0);
+	private float currentTemp;
 	private int connVal;
+	private JTextField jtxtTempVal;
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1270267253612995056L;
+	
+	public TempColourPanel(){
+		addMouseMotionListener(this);
+	}
 
 	@Override
 	protected void paintComponent(Graphics g) {
@@ -57,6 +67,7 @@ public class TempColourPanel extends JPanel {
 	}
 	
 	public void setTemperature(float temperature){
+		this.currentTemp=temperature;
 		//take float temp and convert to rgb
 		//range 1  r=0,g=0,b=0 black to r=0,g=0,b=255 blue
 		//range 2  r=0,g=0,b=255 blue to r=255,g=0,b=255 purple
@@ -108,5 +119,27 @@ public class TempColourPanel extends JPanel {
 		this.connVal=conn.getConnectorBitMapValue();
 	
 	}
+
+
+
+	public void setJtxtTempVal(JTextField jtxtTempVal) {
+		this.jtxtTempVal = jtxtTempVal;
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent arg0) {
+		this.jtxtTempVal.setText(""+this.currentTemp+"degC");
+		
+	}
+
+
+	
+	
 
 }
