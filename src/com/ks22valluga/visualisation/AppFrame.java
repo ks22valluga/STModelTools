@@ -52,7 +52,7 @@ public class AppFrame {
 		panel_1.setBounds(0, 231, 443, 41);
 		frmStmodelvis.getContentPane().add(panel_1);
 		
-		JLabel lblSelectedTemp = new JLabel("Selected Temp");
+		JLabel lblSelectedTemp = new JLabel("Selected Temperature");
 		panel_1.add(lblSelectedTemp);
 		
 		currentTemperature = new JTextField();
