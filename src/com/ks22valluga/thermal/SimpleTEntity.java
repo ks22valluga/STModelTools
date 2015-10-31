@@ -16,6 +16,7 @@ public class SimpleTEntity {
 	private ArrayList<SimpleTEntity> children;
 	private String nodeId;
 	private String friendlyName;
+	private boolean fixedTemp;
 	
 	
 	public SimpleTEntity(SimpleTEntity parent, float mass, float temp, float parentConductance, String name){
@@ -31,7 +32,13 @@ public class SimpleTEntity {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		this.fixedTemp=false;
 		
+	}
+	
+	public SimpleTEntity(SimpleTEntity parent, float mass, float temp, float parentConductance, String name, boolean fixedTemp){
+		this(parent, mass, temp, parentConductance, name);
+		this.fixedTemp=fixedTemp;
 	}
 	
 	public void addChild(float mass, float temp, float conductance, String name ){
@@ -71,6 +78,8 @@ public class SimpleTEntity {
 	
 	public void update(){
 		SimpleTEntity root=this;
+		float keepTemp=temp;
+
 		if(root.hasChildren()){
 		SimpleTEntity[] steArr =root.getChildren();
 		for(SimpleTEntity ste :steArr ){
@@ -92,6 +101,9 @@ public class SimpleTEntity {
 			tempArr[0].setTemp(temp1);
 			tempArr[1].setTemp(temp2);
 		}
+		}
+		if(fixedTemp){
+			this.temp=keepTemp;
 		}
 	}
 	
@@ -152,6 +164,14 @@ public class SimpleTEntity {
 
 	public void setFriendlyName(String friendlyName) {
 		this.friendlyName = friendlyName;
+	}
+
+	public boolean isFixedTemp() {
+		return fixedTemp;
+	}
+
+	public void setFixedTemp(boolean fixedTemp) {
+		this.fixedTemp = fixedTemp;
 	}
 	
 

@@ -13,6 +13,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import com.ks22valluga.thermal.SimpleTEntity;
+
 public class TempColourPanel extends JPanel implements MouseMotionListener{
 	private float minTemp=-20f;
 	private float maxTemp=100f;
@@ -20,6 +22,15 @@ public class TempColourPanel extends JPanel implements MouseMotionListener{
 	private float currentTemp;
 	private int connVal;
 	private JTextField jtxtTempVal;
+	private SimpleTEntity assocatedEntity;
+
+	public SimpleTEntity getAssocatedEntity() {
+		return assocatedEntity;
+	}
+
+	public void setAssocatedEntity(SimpleTEntity assocatedEntity) {
+		this.assocatedEntity = assocatedEntity;
+	}
 
 	/**
 	 * 
