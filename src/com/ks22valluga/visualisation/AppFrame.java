@@ -1,9 +1,14 @@
 package com.ks22valluga.visualisation;
 
 import java.awt.EventQueue;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JTextPane;
+
+import com.ks22valluga.thermal.SimpleTEntity;
+import com.ks22valluga.util.STTimer;
+
 import java.awt.Color;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -60,14 +65,21 @@ public class AppFrame {
 		
 		panel_1.add(currentTemperature);
 		currentTemperature.setColumns(10);
+		STTimer sttPanelUpdate = new STTimer(0, 100);
+		STTimer sttModelUpdate = new STTimer(0, 100);
 		
+		//build simple chain
 		int noOfCells=20;
+		ArrayList<TempColourPanel> altcp = new ArrayList<>();
 		for(int i= 0;i<noOfCells;i++){
 		TempColourPanel panel = new TempColourPanel();
+		panel.setAssocatedEntity(new SimpleTEntity(null, 200, 0, 3,""));
+		altcp.add(panel);
+		sttPanelUpdate.addTimerActivity(panel);
 		panel.setJtxtTempVal(currentTemperature);
 		panel.setBounds(20+(i*15), 20, 15, 15);
-		panel.setMinTemp(-5f);
-		panel.setMaxTemp(30.0f);
+		panel.setMinTemp(5f);
+		panel.setMaxTemp(50.0f);
 		float factor = new Float(i);
 		float temperature=10.0f+(factor/1);
 		panel.setTemperature(temperature);
@@ -85,6 +97,25 @@ public class AppFrame {
 		panel.setConnector(conn);
 		frmStmodelvis.getContentPane().add(panel);
         }
+		
+		//build simple chain
+		SimpleTEntity rootNode= altcp.get(0).getAssocatedEntity();
+		rootNode.setIAmARoot(true);
+		rootNode.setFixedTemp(true);
+		rootNode.setTemp(50);
+		sttModelUpdate.addTimerActivity(rootNode);
+		
+		for(int i=1;i<altcp.size();i++){
+			SimpleTEntity currentSTE=altcp.get(i).getAssocatedEntity();
+			SimpleTEntity parentSTE=altcp.get(i-1).getAssocatedEntity();
+			currentSTE.setFriendlyName("ch-link-"+i);
+			currentSTE.setTemp(5.0f);
+			currentSTE.setParent(parentSTE);
+			parentSTE.addChild(currentSTE);
+		}
+		
+		sttPanelUpdate.start();
+		sttModelUpdate.start();
 		
 	}
 }

@@ -6,9 +6,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.ks22valluga.util.NameRegistry;
+import com.ks22valluga.util.TimerActivity;
 import com.ks22valluga.util.UniqueCodeGenException;
 
-public class SimpleTEntity {
+public class SimpleTEntity implements TimerActivity {
 	private float mass;
 	private float temp;
 	private SimpleTEntity parent;
@@ -17,6 +18,7 @@ public class SimpleTEntity {
 	private String nodeId;
 	private String friendlyName;
 	private boolean fixedTemp;
+	private boolean iAmARoot;
 	
 	
 	public SimpleTEntity(SimpleTEntity parent, float mass, float temp, float parentConductance, String name){
@@ -29,10 +31,10 @@ public class SimpleTEntity {
 		try {
 			this.nodeId=NameRegistry.getUniqueName();
 		} catch (UniqueCodeGenException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		this.fixedTemp=false;
+		setIAmARoot(false);
 		
 	}
 	
@@ -45,6 +47,11 @@ public class SimpleTEntity {
 
 		SimpleTEntity locSTE = new SimpleTEntity(this, mass, temp, conductance, name);
 		children.add(locSTE);
+	}
+	
+	public void addChild(SimpleTEntity ste){
+
+		children.add(ste);
 	}
 
 	public float getTemp() {
@@ -62,6 +69,12 @@ public class SimpleTEntity {
 	public SimpleTEntity getParent() {
 		return parent;
 	}
+	
+	
+	public void setParent(SimpleTEntity ste) {
+		this.parent=ste;
+	}
+	
 
 	public float getParentConductance() {
 		return parentConductance;
@@ -172,6 +185,22 @@ public class SimpleTEntity {
 
 	public void setFixedTemp(boolean fixedTemp) {
 		this.fixedTemp = fixedTemp;
+	}
+
+	@Override
+	public void fireTimerEvent() {
+		if(isIAmARoot()){
+			update();
+		}
+		
+	}
+
+	public boolean isIAmARoot() {
+		return iAmARoot;
+	}
+
+	public void setIAmARoot(boolean iAmARoot) {
+		this.iAmARoot = iAmARoot;
 	}
 	
 

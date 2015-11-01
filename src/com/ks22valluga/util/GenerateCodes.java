@@ -16,5 +16,11 @@ public class GenerateCodes {
 		}
 		return code;
 	}
+	
+	public static int generateRandomInt(int start,int range){
+		Random rand = new Random();
+		int nextInt =rand.nextInt(range);
+		return start+nextInt;
+	}
 
 }

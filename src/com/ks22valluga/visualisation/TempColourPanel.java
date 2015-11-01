@@ -13,9 +13,11 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import com.ks22valluga.util.GenerateCodes;
+import com.ks22valluga.util.TimerActivity;
 import com.ks22valluga.thermal.SimpleTEntity;
 
-public class TempColourPanel extends JPanel implements MouseMotionListener{
+public class TempColourPanel extends JPanel implements MouseMotionListener, TimerActivity{
 	private float minTemp=-20f;
 	private float maxTemp=100f;
 	private Color currentColor=new Color(0, 0, 0);
@@ -24,14 +26,10 @@ public class TempColourPanel extends JPanel implements MouseMotionListener{
 	private JTextField jtxtTempVal;
 	private SimpleTEntity assocatedEntity;
 
-	public SimpleTEntity getAssocatedEntity() {
-		return assocatedEntity;
-	}
-
-	public void setAssocatedEntity(SimpleTEntity assocatedEntity) {
-		this.assocatedEntity = assocatedEntity;
-	}
-
+	
+	
+	
+	
 	/**
 	 * 
 	 */
@@ -39,7 +37,14 @@ public class TempColourPanel extends JPanel implements MouseMotionListener{
 	
 	public TempColourPanel(){
 		addMouseMotionListener(this);
+		assocatedEntity = new SimpleTEntity(null, 500, 0, 5,"root");
 	}
+	
+	public TempColourPanel(SimpleTEntity ste){
+		this();
+		setAssocatedEntity(ste);
+	}
+	
 
 	@Override
 	protected void paintComponent(Graphics g) {
@@ -112,7 +117,17 @@ public class TempColourPanel extends JPanel implements MouseMotionListener{
 			}else{
 				//range 4
 				int offsetTargetint=targetInt-(3*256);
-				currentColor= new Color(255, offsetTargetint, offsetTargetint);
+				//TODO: fix hack by understanding issue
+				if(offsetTargetint>255){
+					offsetTargetint=255;
+				}
+				try {
+					currentColor= new Color(255, offsetTargetint, offsetTargetint);
+				} catch (Exception e) {
+					e.printStackTrace();
+					System.err.println("offsetTarget "+offsetTargetint);
+					System.exit(0);
+				}
 			}
 			
 		}
@@ -131,8 +146,6 @@ public class TempColourPanel extends JPanel implements MouseMotionListener{
 	
 	}
 
-
-
 	public void setJtxtTempVal(JTextField jtxtTempVal) {
 		this.jtxtTempVal = jtxtTempVal;
 	}
@@ -149,8 +162,24 @@ public class TempColourPanel extends JPanel implements MouseMotionListener{
 		
 	}
 
+	@Override
+	public void fireTimerEvent() {
+		// TODO Auto-generated method stub
+		//setTemperature(new Float(GenerateCodes.generateRandomInt(0, 30)).floatValue());
+		setTemperature(assocatedEntity.getTemp());
+		this.repaint();
+		
+	}
+
 
 	
-	
+	public SimpleTEntity getAssocatedEntity() {
+		return assocatedEntity;
+	}
 
+	public void setAssocatedEntity(SimpleTEntity assocatedEntity) {
+		this.assocatedEntity = assocatedEntity;
+	}
+
+	
 }
