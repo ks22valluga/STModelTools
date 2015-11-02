@@ -70,7 +70,7 @@ public class AppFrame {
 		
 		//build simple chain
 		int noOfCells=20;
-		ArrayList<TempColourPanel> altcp = new ArrayList<>();
+		ArrayList<TempColourPanel> altcp = new ArrayList<TempColourPanel>();
 		for(int i= 0;i<noOfCells;i++){
 		TempColourPanel panel = new TempColourPanel();
 		panel.setAssocatedEntity(new SimpleTEntity(null, 200, 0, 3,""));

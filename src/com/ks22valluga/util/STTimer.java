@@ -17,7 +17,7 @@ public class STTimer extends Thread{
 			this.loop=true;
 		}
 		this.pauseTime=pauseTime;
-		timerActivities= new ArrayList<>();
+		timerActivities= new ArrayList<TimerActivity>();
 	}
 
 	@Override
