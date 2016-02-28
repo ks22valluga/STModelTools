@@ -52,77 +52,76 @@ public class AppFrame {
 		frmStmodelvis.setBounds(100, 100, 450, 300);
 		frmStmodelvis.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmStmodelvis.getContentPane().setLayout(null);
-		
+
 		JPanel panel_1 = new JPanel();
 		panel_1.setBounds(0, 231, 443, 41);
 		frmStmodelvis.getContentPane().add(panel_1);
-		
+
 		JLabel lblSelectedTemp = new JLabel("Selected Temperature");
 		panel_1.add(lblSelectedTemp);
-		
+
 		currentTemperature = new JTextField();
 		currentTemperature.setText("null");
-		
+
 		panel_1.add(currentTemperature);
 		currentTemperature.setColumns(10);
 		STTimer sttPanelUpdate = new STTimer(0, 100);
 		STTimer sttModelUpdate = new STTimer(0, 100);
-		
-		//build simple chain
-		int noOfCells=10;
+
+		// build simple chain
+		int noOfCells = 10;
 		ArrayList<TempColourPanel> altcp = new ArrayList<TempColourPanel>();
-		for(int i= 0;i<noOfCells;i++){
-		TempColourPanel panel = new TempColourPanel();
-		panel.setAssocatedEntity(new SimpleTEntity(null, 200, 0, 3,""));
-		altcp.add(panel);
-		sttPanelUpdate.addTimerActivity(panel);
-		panel.setJtxtTempVal(currentTemperature);
-		panel.setBounds(20+(i*15), 20, 15, 15);
-		panel.setMinTemp(5f);
-		panel.setMaxTemp(50.0f);
-		float factor = new Float(i);
-		float temperature=10.0f+(factor/1);
-		panel.setTemperature(temperature);
-		
-		Connector conn = new Connector();
-		if(i==0){	
-			conn.addConnector(ConnectorEnum.right);
-		} else if(i==(noOfCells-1)){
-			conn.addConnector(ConnectorEnum.left);			
-		} else{
-			conn.addConnector(ConnectorEnum.right);
-			conn.addConnector(ConnectorEnum.left);
+		for (int i = 0; i < noOfCells; i++) {
+			TempColourPanel panel = new TempColourPanel();
+			panel.setAssocatedEntity(new SimpleTEntity(null, 200, 0, 3, ""));
+			altcp.add(panel);
+			sttPanelUpdate.addTimerActivity(panel);
+			panel.setJtxtTempVal(currentTemperature);
+			panel.setBounds(20 + (i * 15), 20, 15, 15);
+			panel.setMinTemp(5f);
+			panel.setMaxTemp(50.0f);
+			float factor = new Float(i);
+			float temperature = 10.0f + (factor / 1);
+			panel.setTemperature(temperature);
+
+			Connector conn = new Connector();
+			if (i == 0) {
+				conn.addConnector(ConnectorEnum.right);
+			} else if (i == (noOfCells - 1)) {
+				conn.addConnector(ConnectorEnum.left);
+			} else {
+				conn.addConnector(ConnectorEnum.right);
+				conn.addConnector(ConnectorEnum.left);
+			}
+
+			panel.setConnector(conn);
+			frmStmodelvis.getContentPane().add(panel);
 		}
-		
-		panel.setConnector(conn);
-		frmStmodelvis.getContentPane().add(panel);
-        }
-		
-		//build simple chain
-		SimpleTEntity rootNode= altcp.get(0).getAssocatedEntity();
+
+		// build simple chain
+		SimpleTEntity rootNode = altcp.get(0).getAssocatedEntity();
 		rootNode.setIAmARoot(true);
 		rootNode.setFixedTemp(true);
 		rootNode.setTemp(50);
 		sttModelUpdate.addTimerActivity(rootNode);
-		
-		for(int i=1;i<altcp.size();i++){
-			SimpleTEntity currentSTE=altcp.get(i).getAssocatedEntity();
-			SimpleTEntity parentSTE=altcp.get(i-1).getAssocatedEntity();
-			currentSTE.setFriendlyName("ch-link-"+i);
+
+		for (int i = 1; i < altcp.size(); i++) {
+			SimpleTEntity currentSTE = altcp.get(i).getAssocatedEntity();
+			SimpleTEntity parentSTE = altcp.get(i - 1).getAssocatedEntity();
+			currentSTE.setFriendlyName("ch-link-" + i);
 			currentSTE.setTemp(5.0f);
 			currentSTE.setParent(parentSTE);
 			parentSTE.addChild(currentSTE);
-			//add a fixed temp node at end
-			if(i==(altcp.size()-1)){
+			// add a fixed temp node at end
+			if (i == (altcp.size() - 1)) {
 				currentSTE.setFixedTemp(true);
 				currentSTE.setMass(100000000000f);
 			}
 		}
-		//add a fixed temp node at end#
-		
-		
+		// add a fixed temp node at end#
+
 		sttPanelUpdate.start();
 		sttModelUpdate.start();
-		
+
 	}
 }
