@@ -69,7 +69,7 @@ public class AppFrame {
 		STTimer sttModelUpdate = new STTimer(0, 100);
 		
 		//build simple chain
-		int noOfCells=20;
+		int noOfCells=10;
 		ArrayList<TempColourPanel> altcp = new ArrayList<TempColourPanel>();
 		for(int i= 0;i<noOfCells;i++){
 		TempColourPanel panel = new TempColourPanel();
@@ -112,7 +112,14 @@ public class AppFrame {
 			currentSTE.setTemp(5.0f);
 			currentSTE.setParent(parentSTE);
 			parentSTE.addChild(currentSTE);
+			//add a fixed temp node at end
+			if(i==(altcp.size()-1)){
+				currentSTE.setFixedTemp(true);
+				currentSTE.setMass(100000000000f);
+			}
 		}
+		//add a fixed temp node at end#
+		
 		
 		sttPanelUpdate.start();
 		sttModelUpdate.start();

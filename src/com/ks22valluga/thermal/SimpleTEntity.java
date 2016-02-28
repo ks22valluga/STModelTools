@@ -11,6 +11,8 @@ import com.ks22valluga.util.UniqueCodeGenException;
 
 public class SimpleTEntity implements TimerActivity {
 	private float mass;
+
+
 	private float temp;
 	private SimpleTEntity parent;
 	private float parentConductance;
@@ -169,6 +171,10 @@ public class SimpleTEntity implements TimerActivity {
 
 	public String getNodeId() {
 		return nodeId;
+	}
+	
+	public void setMass(float mass) {
+		this.mass = mass;
 	}
 
 	public String getFriendlyName() {
