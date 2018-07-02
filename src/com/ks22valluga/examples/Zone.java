@@ -25,8 +25,8 @@ public class Zone {
 	//set ext temp 2 deg
 	zn.child61.setFixedTemp(200f);
 	//set mass on adjacent node 
-	zn.child32.setMass(700);
-	for (int i = 0; i < 360; i++) {
+	zn.child32.setMass(1078);
+	for (int i = 0; i < 151; i++) {
 	    zn.root.update();
 	    StringBuilder sb = new StringBuilder();
 
