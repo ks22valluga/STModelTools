@@ -69,11 +69,11 @@ public class AppFrame {
 		STTimer sttModelUpdate = new STTimer(0, 100);
 
 		// build simple chain
-		int noOfCells = 10;
+		int noOfCells = 20;
 		ArrayList<TempColourPanel> altcp = new ArrayList<TempColourPanel>();
 		for (int i = 0; i < noOfCells; i++) {
 			TempColourPanel panel = new TempColourPanel();
-			panel.setAssocatedEntity(new SimpleTEntity(null, 200, 0, 3, ""));
+			panel.setAssocatedEntity(new SimpleTEntity(null, 200, 0, 99, ""));
 			altcp.add(panel);
 			sttPanelUpdate.addTimerActivity(panel);
 			panel.setJtxtTempVal(currentTemperature);
@@ -89,6 +89,7 @@ public class AppFrame {
 				conn.addConnector(ConnectorEnum.right);
 			} else if (i == (noOfCells - 1)) {
 				conn.addConnector(ConnectorEnum.left);
+				conn.addConnector(ConnectorEnum.top);
 			} else {
 				conn.addConnector(ConnectorEnum.right);
 				conn.addConnector(ConnectorEnum.left);

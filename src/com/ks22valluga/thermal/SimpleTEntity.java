@@ -196,6 +196,7 @@ public class SimpleTEntity implements TimerActivity {
 	@Override
 	public void fireTimerEvent() {
 		if(isIAmARoot()){
+		//    System.out.println('.');
 			update();
 		}
 		
@@ -207,6 +208,12 @@ public class SimpleTEntity implements TimerActivity {
 
 	public void setIAmARoot(boolean iAmARoot) {
 		this.iAmARoot = iAmARoot;
+	}
+
+	public void setFixedTemp(float f) {
+	   this.fixedTemp=true;
+	   this.temp=f;
+	    
 	}
 	
 
