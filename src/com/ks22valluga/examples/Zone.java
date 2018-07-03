@@ -16,53 +16,61 @@ public class Zone {
 
 	Zone zn = new Zone();
 
-	//set zone temp 19.5 = 1950
-	for(SimpleTEntity ste : zn.chain){
-	ste.setTemp(1950);
+	// set zone temp 19.5 = 1950
+	for (SimpleTEntity ste : zn.chain) {
+	    ste.setTemp(1950);
 	}
-	//set root to boiler temp 60deg
-	zn.root.setFixedTemp(4000f); 
-	
-	//set ext temp 2 deg
-	zn.child61.setFixedTemp(200f);
-	zn.child61.setMass(1800f);
+	// set root to boiler temp 60deg
+	zn.root.setFixedTemp(4000f);
 
-	//set mass on adjacent node 
-	zn.child32.setMass(5000);
+	// set ext temp 2 deg
+	zn.child61.setFixedTemp(200f);
+	zn.child61.setMass(1900f);
+
+	// set mass on adjacent node
+	zn.child32.setMass(9000);
+
+	StringBuilder sb = new StringBuilder();
+	sb.append("Min,");
+	for (SimpleTEntity ste : zn.chain) {
+	    sb.append(ste.getFriendlyName() + ",");
+	}
+	System.out.println(sb.toString());
+
 	for (int i = 0; i < 151; i++) {
 	    zn.root.update();
-	    if(i!=1500){
-	    StringBuilder sb = new StringBuilder();
+	    if (i != 1500) {
+		sb = new StringBuilder();
 
-	    sb.append("Min " + i + "\t");
-	    for(SimpleTEntity ste : zn.chain){
-		sb.append(ste.getFriendlyName()+" "+ste.getTemp()+"\t");
-	    }
-	    
-	    System.out.println(sb.toString());
+		sb.append(i + ",");
+		for (SimpleTEntity ste : zn.chain) {
+		    sb.append(ste.getTemp() + ",");
+		}
+		System.out.println(sb.toString());
 	    }
 
 	}
-	
-	//zn.root.setFixedTemp(false);
+
+	// zn.root.setFixedTemp(false);
 	zn.root.setFixedTemp(zn.child31.getTemp());
-	
+
 	for (int i = 0; i < 541; i++) {
 	    zn.root.setTemp(zn.child11.getTemp());
 	    zn.root.update();
-	    
-	    if(i!=5400){
-	    StringBuilder sb = new StringBuilder();
 
-	    sb.append("Min " + i + "\t");
-	    for(SimpleTEntity ste : zn.chain){
-		sb.append(ste.getFriendlyName()+" "+ste.getTemp()+"\t");
-	    }
-	    
-	    System.out.println(sb.toString());
+	    if (i != 5400) {
+		sb = new StringBuilder();
+
+		sb.append(i + ",");
+		for (SimpleTEntity ste : zn.chain) {
+		    sb.append(ste.getTemp() + ",");
+		}
+		System.out.println(sb.toString());
 	    }
 
 	}
+	
+	//System.out.println(zn.root.buildConfig().toString(2));
 
     }
 
@@ -71,12 +79,12 @@ public class Zone {
 	chain.add(root);
 	float tempRoot = root.getTemp();
 
-	root.addChild(500, 0, 9, "child11");
+	root.addChild(500, 0, 10, "child11");
 	child11 = root.getChildren()[0];
 	chain.add(child11);
 	float tempChild1 = child11.getTemp();
 
-	child11.addChild(500, 0, 7, "child21");
+	child11.addChild(500, 0, 8, "child21");
 	child21 = child11.getChildren()[0];
 	chain.add(child21);
 	float tempChild21 = child21.getTemp();
@@ -90,17 +98,17 @@ public class Zone {
 	chain.add(child32);
 	float tempChild32 = child32.getTemp();
 
-	child31.addChild(500, 0, 5, "child41");
+	child31.addChild(600, 0, 4, "child41");
 	child41 = child31.getChildren()[0];
 	chain.add(child41);
 	float tempChild41 = child41.getTemp();
 
-	child41.addChild(500, 0, 5, "child51");
+	child41.addChild(900, 0, 6, "child51");
 	child51 = child41.getChildren()[0];
 	chain.add(child51);
 	float tempChild51 = child51.getTemp();
 
-	child51.addChild(500, 0, 50, "child61");
+	child51.addChild(3000, 0, 100, "child61");
 	child61 = child51.getChildren()[0];
 	chain.add(child61);
 	float tempChild61 = child61.getTemp();

@@ -10,7 +10,7 @@
 			destdir="${env.HOME}/git/STModelTools/bin" 
 			classpath=". /usr/lib/pslqa/json.jar /usr/lib/pslqa/org.junit_4.11.0.v201303080030/junit.jar" debug="on" />
 		<echo message="compiled STModelTools" level="info"/>
-		<jar destfile="/home/kevins/git/STModelTools/resources/dist/stmt_0.0.1.jar">
+		<jar destfile="/home/kevins/git/STModelTools/resources/dist/stmt_0.0.2.jar">
 
 			<manifest>
 				<attribute name="Class-Path" value=". /usr/lib/pslqa/json.jar /usr/lib/pslqa/org.junit_4.11.0.v201303080030/junit.jar"/>
@@ -19,6 +19,6 @@
 		</jar>
 	</target>
 	<target name="clean">
-		<delete file="${env.HOME}/git/STModelTools/resources/dist/stmt_0.0.1.jar"/>
+		<delete file="${env.HOME}/git/STModelTools/resources/dist/stmt_0.0.2.jar"/>
 			</target>
 </project>

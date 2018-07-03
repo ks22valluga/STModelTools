@@ -98,6 +98,7 @@ public class SimpleTEntity implements TimerActivity {
 		if(root.hasChildren()){
 		SimpleTEntity[] steArr =root.getChildren();
 		for(SimpleTEntity ste :steArr ){
+
 			ste.update();
 			//find highest temp
 			float conductance = ste.getParentConductance();
@@ -113,8 +114,15 @@ public class SimpleTEntity implements TimerActivity {
 			heat2=heat2+heatTrans;
 			float temp1 =heat1/tempArr[0].getMass();
 			float temp2 =heat2/tempArr[1].getMass();
-			tempArr[0].setTemp(temp1);
-			tempArr[1].setTemp(temp2);
+			    if(!tempArr[0].isFixedTemp()){
+				tempArr[0].setTemp(temp1);
+			    }
+			    if(!tempArr[1].isFixedTemp()){
+				tempArr[1].setTemp(temp2);
+			    }
+
+
+			
 		}
 		}
 		if(fixedTemp){
