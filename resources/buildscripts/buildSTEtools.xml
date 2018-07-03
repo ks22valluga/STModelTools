@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create" name="Create Runnable Jar for Project STM with Jar-in-Jar Loader">
+	<!--this file was created by Eclipse Runnable JAR Export Wizard-->
+	<!--ANT 1.7 is required                                        -->
+	<property environment="env"/>
+	<target name="create" depends="clean">
+
+		<javac includeantruntime="false" 
+			srcdir="${env.HOME}/git/STModelTools/src" 
+			destdir="${env.HOME}/git/STModelTools/bin" 
+			classpath=". /usr/lib/pslqa/json.jar /usr/lib/pslqa/org.junit_4.11.0.v201303080030/junit.jar" debug="on" />
+		<echo message="compiled STModelTools" level="info"/>
+		<jar destfile="/home/kevins/git/STModelTools/resources/dist/stmt_0.0.1.jar">
+
+			<manifest>
+				<attribute name="Class-Path" value=". /usr/lib/pslqa/json.jar /usr/lib/pslqa/org.junit_4.11.0.v201303080030/junit.jar"/>
+			</manifest>
+			<fileset dir="${env.HOME}/git/STModelTools/bin"/>
+		</jar>
+	</target>
+	<target name="clean">
+		<delete file="${env.HOME}/git/STModelTools/resources/dist/stmt_0.0.1.jar"/>
+			</target>
+</project>
