@@ -21,16 +21,17 @@ public class Zone {
 	ste.setTemp(1950);
 	}
 	//set root to boiler temp 60deg
-	zn.root.setTemp(6000f);
+	zn.root.setFixedTemp(4000f); 
+	
 	//set ext temp 2 deg
 	zn.child61.setFixedTemp(200f);
-	zn.child61.setMass(2000f);
+	zn.child61.setMass(1800f);
 
 	//set mass on adjacent node 
-	zn.child32.setMass(1300);
+	zn.child32.setMass(5000);
 	for (int i = 0; i < 151; i++) {
 	    zn.root.update();
-	    if(i==150){
+	    if(i!=1500){
 	    StringBuilder sb = new StringBuilder();
 
 	    sb.append("Min " + i + "\t");
@@ -43,12 +44,14 @@ public class Zone {
 
 	}
 	
-	zn.root.setFixedTemp(false);
+	//zn.root.setFixedTemp(false);
 	zn.root.setFixedTemp(zn.child31.getTemp());
+	
 	for (int i = 0; i < 541; i++) {
+	    zn.root.setTemp(zn.child11.getTemp());
 	    zn.root.update();
 	    
-	    if(i==540){
+	    if(i!=5400){
 	    StringBuilder sb = new StringBuilder();
 
 	    sb.append("Min " + i + "\t");
@@ -64,16 +67,16 @@ public class Zone {
     }
 
     public Zone() {
-	root = new SimpleTEntity(null, 500, 10000, 0, "root");
+	root = new SimpleTEntity(null, 1, 0, 2000, "root");
 	chain.add(root);
 	float tempRoot = root.getTemp();
 
-	root.addChild(700, 0, 6, "child11");
+	root.addChild(500, 0, 9, "child11");
 	child11 = root.getChildren()[0];
 	chain.add(child11);
 	float tempChild1 = child11.getTemp();
 
-	child11.addChild(500, 0, 5, "child21");
+	child11.addChild(500, 0, 7, "child21");
 	child21 = child11.getChildren()[0];
 	chain.add(child21);
 	float tempChild21 = child21.getTemp();
@@ -97,7 +100,7 @@ public class Zone {
 	chain.add(child51);
 	float tempChild51 = child51.getTemp();
 
-	child51.addChild(500, 0, 40, "child61");
+	child51.addChild(500, 0, 50, "child61");
 	child61 = child51.getChildren()[0];
 	chain.add(child61);
 	float tempChild61 = child61.getTemp();
