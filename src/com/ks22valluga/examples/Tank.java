@@ -10,44 +10,84 @@ public class Tank {
 
     private SimpleTEntity root;
     private ArrayList<SimpleTEntity> tankBodyElements;
-    private ArrayList<SimpleTEntity> nonInvasiveSensorArray = new ArrayList<>();
-    private int noOfNISArraElements=5;
+    private ArrayList<SimpleTEntity> nonInvasiveSensorArray;
     private SimpleTEntity heater;
     private SimpleTEntity surfaceNIS;
     private SimpleTEntity ambientNIS;
     private SimpleTEntity sensorTankAnchorPoint;
     private boolean bottomHeating;
+    private int percentFromTopHeater;
+    private float heaterTemp;
+    private boolean heaterState;
+    private boolean drawWaterState;
+    private int drawWaterVolume;
 
     public static void main(String[] args) {
 
-	boolean bottomHeating=true;
+	
 	int noOfTankSegments=1000;
 	float initialTankSegmentTemps=1900f;
 	float initialSensorTemps=1900f;
-	Tank zn = new Tank(noOfTankSegments,initialTankSegmentTemps,initialSensorTemps,bottomHeating);
+	int percentFromTopHeater=25;
+	
+	//Bottom heating
+	Tank zn = new Tank(noOfTankSegments,initialTankSegmentTemps,initialSensorTemps);
+	
+	//Variable level heating
+//	int percentFromTop=25;
+//	Tank zn = new Tank(noOfTankSegments,initialTankSegmentTemps,initialSensorTemps,percentFromTop);
+	
+	
 	// tank construction
-	//body of tank 1 chain (chain1)
-	//gas heater/deep immersion element at final tank chain
-	//top up immersion at top quarter of tank 
-	// chain comprising tank insulation,surface,insulation,ambient temp 
+	//body of tank 1 chain (chain1)  [done]
+	//gas heater/deep immersion element at final tank chain [done]
+	//top up immersion at top quarter of tank  [done]
+	// chain comprising tank insulation,surface,insulation,ambient temp [done]
 	
 	//tank lifetime 
 	
-	//no draw, normal mass/temp/conductance causes de-layering slowly
+	//no draw, normal mass/temp/conductance causes de-layering slowly [done, implicit in use of SimpleTEntity I think]
 	
 	//to draw water ,re-create tankElements with top elements removed greater number per unit time for flow rate
 	//replace removed elements at bottom of chain with cold water
+	float coldWaterTemp =1000f;
+	int unitsPerTimePeriod=20;
+	zn.drawWaterConfigure(unitsPerTimePeriod,true);
 	
 	
 	//heat, water mixing of all tank elements
+	float heaterTemp=5500f;
+	zn.heatTankConfigure(heaterTemp,true);
 
-
+        zn.operateCycle();
 
     }
 
-    public Tank(int noOfTankElements,float initialTemp,float defaultTempsSensorArray,boolean bottomHeating) {
+    private void operateCycle() {
+	//if d
+	
+    }
+
+    public void heatTankConfigure(float heaterTemp,boolean state) {
+	this.heaterTemp =heaterTemp;
+	this.heaterState =state;
+    }
+
+    public void drawWaterConfigure(int unitsPerTimePeriod,boolean state) {
+	this.drawWaterState=state;
+	this.drawWaterVolume=unitsPerTimePeriod;
+	//create new body array
+	//1st new body element = index unitsPerTimePeriod of old
+	//after all old elements used add new elements as per coldWaterTemp
+	//re attach heater and sensor
+	
+    }
+
+    public Tank(int noOfTankElements,float initialTemp,float defaultTempsSensorArray) {
 	
 	//construct 
+	
+	//TODO tank element defaults to be tuned for slow delayering
 	tankBodyElements = new ArrayList<>(noOfTankElements);
 	float defaultMass=100f;
 	float defaultConductance=1f;
@@ -60,32 +100,95 @@ public class Tank {
 	    tankElement.addChild(tankElement);
 	}
 	
-	nonInvasiveSensorArray = new ArrayList<>(noOfNISArraElements);
-	relocateTankSensorAttachPoint();
+	nonInvasiveSensorArray = getNonInvasiveSensorArray();
+	heater = new SimpleTEntity(null, defaultMass, initialTemp, defaultConductance, "heater");
+	relocateTankSensorAttachPointMid();
 	relocateHeater();
+	this.percentFromTopHeater=0;
+	this.bottomHeating=true;
+    }
+    
+    public Tank(int noOfTankElements,float initialTemp,float defaultTempsSensorArray,int percentFromTopHeater) {
+	this(noOfTankElements,initialTemp,defaultTempsSensorArray);
 	
+	this.percentFromTopHeater=percentFromTopHeater;
+	this.bottomHeating=false;
+    }
+    
+    private ArrayList<SimpleTEntity> getNonInvasiveSensorArray(){
+	ArrayList<SimpleTEntity> nonInvasiveSensorArrayInit = new ArrayList<>();
+	// chain comprising tank insulation,surface,more insulation,ambient temp 
 	
+	//TODO: tune the array the figures entered are very much defaults
 	
-	
-	
-
+	SimpleTEntity tankInsulation,tankSurface,sensorInsulation,ambientTemperature;
+	tankInsulation = new SimpleTEntity(null, 100, 1900f, 1, "TankInsulation"); //parent has high conductance
+	nonInvasiveSensorArrayInit.add(tankInsulation);
+	tankSurface = new SimpleTEntity(tankInsulation, 100, 1900f, 1, "TankSurface"); //parent has low  conductance
+	nonInvasiveSensorArrayInit.add(tankSurface);	
+	sensorInsulation = new SimpleTEntity(tankSurface, 100, 1900f, 1, "SensorInsulation"); //parent has high conductance
+	nonInvasiveSensorArrayInit.add(sensorInsulation);
+	ambientTemperature = new SimpleTEntity(sensorInsulation, 100, 1900f, 1, "AmbientTemperature"); //parent has low conductance
+	nonInvasiveSensorArrayInit.add(ambientTemperature);
+	return nonInvasiveSensorArrayInit;
     }
 
     private void relocateHeater() {
-	// TODO Auto-generated method stub
+	    SimpleTEntity parentOfHeater;
+	if(bottomHeating){
+	    int lastElement = tankBodyElements.size()-1;
+	    parentOfHeater=tankBodyElements.get(lastElement);
+	    heater.setParent(parentOfHeater);
+	}else{
+	    int positionElement = tankBodyElements.size()/(100/percentFromTopHeater);
+	    parentOfHeater=tankBodyElements.get(positionElement);
+	    heater.setParent(parentOfHeater);
+	}
 	
     }
 
-    private void relocateTankSensorAttachPoint() {
-	setSensorTankAttachPoint();
-	
+    private void relocateTankSensorAttachPointMid() {
+	setSensorTankAttachPoint(50);
+    }
+    
+  
+
+    private void setSensorTankAttachPoint(int percentFromTop) {
+	int attachValue=tankBodyElements.size()/(100/percentFromTop);
+	this.sensorTankAnchorPoint=tankBodyElements.get(attachValue);
 	
     }
 
-    private void setSensorTankAttachPoint() {
-	int midPointValue=tankBodyElements.size()/2;
-	this.sensorTankAnchorPoint=tankBodyElements.get(midPointValue);
-	
+    public SimpleTEntity getRoot() {
+        return root;
+    }
+
+    public ArrayList<SimpleTEntity> getTankBodyElements() {
+        return tankBodyElements;
+    }
+
+    public SimpleTEntity getHeater() {
+        return heater;
+    }
+
+    public SimpleTEntity getSurfaceNIS() {
+        return surfaceNIS;
+    }
+
+    public SimpleTEntity getAmbientNIS() {
+        return ambientNIS;
+    }
+
+    public SimpleTEntity getSensorTankAnchorPoint() {
+        return sensorTankAnchorPoint;
+    }
+
+    public boolean isBottomHeating() {
+        return bottomHeating;
+    }
+
+    public int getPercentFromTopHeater() {
+        return percentFromTopHeater;
     }
 
 }
