@@ -48,8 +48,8 @@ public class AppFrameTankSim {
 	private void initialize() {
 		frmStmodelvis = new JFrame();
 		frmStmodelvis.setTitle("STModelVis");
-		frmStmodelvis.setResizable(false);
-		frmStmodelvis.setBounds(100, 100, 450, 300);
+		frmStmodelvis.setResizable(true);
+		frmStmodelvis.setBounds(10, 10, 400,650);
 		frmStmodelvis.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmStmodelvis.getContentPane().setLayout(null);
 

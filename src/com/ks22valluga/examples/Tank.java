@@ -79,6 +79,8 @@ public class Tank {
 		// relocate sensor
 		relocateSensor();
 		//update from root
+		
+		//remember to rebuild linked chain
 
 	}
 
