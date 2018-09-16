@@ -18,13 +18,13 @@ import javax.swing.JTextField;
 public class TankApp {
 
 	private JFrame frame;
-	private JTextField textField1;
-	private JTextField textField2;
-	private JTextField textField3;
-	private JTextField textField4;
-	private JTextField textField5;
-	private JTextField textField6;
-	private JTextField textField7;
+	private TextFieldCentigrade textField1;
+	private TextFieldCentigrade textField2;
+	private TextFieldCentigrade textField3;
+	private TextFieldCentigrade textField4;
+	private TextFieldCentigrade textField5;
+	private TextFieldCentigrade textField6;
+	private TextFieldCentigrade textField7;
 
 	/**
 	 * Launch the application.
@@ -73,43 +73,43 @@ public class TankApp {
 		
 
 		
-		textField1 = new JTextField();
+		textField1 = new TextFieldCentigrade();
 		int textField1Ypos=tankPanel.getHeight()-(sensorPosSection*2)+tankPanel.getY();
 		textField1.setBounds(x, textField1Ypos, w, h);
 		frame.getContentPane().add(textField1);
 		textField1.setColumns(10);
 		
-		textField2 = new JTextField();
+		textField2 = new TextFieldCentigrade();
 		textField2.setColumns(10);
 		int textField2Ypos=tankPanel.getHeight()-(sensorPosSection*4)+tankPanel.getY();
 		textField2.setBounds(x, textField2Ypos, w, h);
 		frame.getContentPane().add(textField2);
 		
-		textField3 = new JTextField();
+		textField3 = new TextFieldCentigrade();
 		textField3.setColumns(10);
 		int textField3Ypos=tankPanel.getHeight()-(sensorPosSection*6)+tankPanel.getY();
 		textField3.setBounds(x, textField3Ypos, w, h);
 		frame.getContentPane().add(textField3);
 		
-		textField4 = new JTextField();
+		textField4 = new TextFieldCentigrade();
 		textField4.setColumns(10);
 		int textField4Ypos=tankPanel.getHeight()-(sensorPosSection*8)+tankPanel.getY();
 		textField4.setBounds(x, textField4Ypos, w, h);
 		frame.getContentPane().add(textField4);
 		
-		textField5 = new JTextField();
+		textField5 = new TextFieldCentigrade();
 		textField5.setColumns(10);
 		int textField5Ypos=tankPanel.getHeight()-(sensorPosSection*10)+tankPanel.getY();
 		textField5.setBounds(x, textField5Ypos, w, h);
 		frame.getContentPane().add(textField5);
 		
-		textField6 = new JTextField();
+		textField6 = new TextFieldCentigrade();
 		textField6.setColumns(10);
 		int textField6Ypos=tankPanel.getHeight()-(sensorPosSection*12)+tankPanel.getY();
 		textField6.setBounds(x, textField6Ypos, w, h);
 		frame.getContentPane().add(textField6);
 		
-		textField7 = new JTextField();
+		textField7 = new TextFieldCentigrade();
 		textField7.setColumns(10);
 		int textField7Ypos=tankPanel.getHeight()-(sensorPosSection*14)+tankPanel.getY();
 		textField7.setBounds(x, textField7Ypos, w, h);
@@ -144,7 +144,7 @@ public class TankApp {
 
 	private void setTemp(int i, float val) {
 		BigDecimal bigDecimal=new BigDecimal(val);
-		String value = bigDecimal.setScale(2, RoundingMode.HALF_UP).toString()+"°C";
+		String value = bigDecimal.setScale(2, RoundingMode.HALF_UP).toString();
 		switch(i) {
 		case 1:{
 			textField1.setText(value);
