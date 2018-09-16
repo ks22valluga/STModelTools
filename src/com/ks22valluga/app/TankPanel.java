@@ -80,6 +80,14 @@ public class TankPanel extends JPanel {
 		 }
 		 return testList;
 	 }
+	 
+	 public ArrayList<Float> getSensorValues(ArrayList<Integer> positions){
+		 ArrayList<Float> returnValues = new ArrayList<>();
+		 for(Integer intVal: positions) {
+			 returnValues.add(entities.get(intVal).getTemp());
+		 }
+		 return returnValues;
+	 }
 	
 
 }

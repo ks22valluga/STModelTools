@@ -4,6 +4,10 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import java.awt.GridLayout;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
+
 import javax.swing.JPanel;
 import java.awt.Color;
 import javax.swing.border.BevelBorder;
@@ -70,38 +74,100 @@ public class TankApp {
 
 		
 		textField1 = new JTextField();
-		textField1.setBounds(x, tankPanel.getHeight()-(sensorPosSection*2)+tankPanel.getY(), w, h);
+		int textField1Ypos=tankPanel.getHeight()-(sensorPosSection*2)+tankPanel.getY();
+		textField1.setBounds(x, textField1Ypos, w, h);
 		frame.getContentPane().add(textField1);
 		textField1.setColumns(10);
 		
 		textField2 = new JTextField();
 		textField2.setColumns(10);
-		textField2.setBounds(x, tankPanel.getHeight()-(sensorPosSection*4)+tankPanel.getY(), w, h);
+		int textField2Ypos=tankPanel.getHeight()-(sensorPosSection*4)+tankPanel.getY();
+		textField2.setBounds(x, textField2Ypos, w, h);
 		frame.getContentPane().add(textField2);
 		
 		textField3 = new JTextField();
 		textField3.setColumns(10);
-		textField3.setBounds(x, tankPanel.getHeight()-(sensorPosSection*6)+tankPanel.getY(), w, h);
+		int textField3Ypos=tankPanel.getHeight()-(sensorPosSection*6)+tankPanel.getY();
+		textField3.setBounds(x, textField3Ypos, w, h);
 		frame.getContentPane().add(textField3);
 		
 		textField4 = new JTextField();
 		textField4.setColumns(10);
-		textField4.setBounds(x, tankPanel.getHeight()-(sensorPosSection*8)+tankPanel.getY(), w, h);
+		int textField4Ypos=tankPanel.getHeight()-(sensorPosSection*8)+tankPanel.getY();
+		textField4.setBounds(x, textField4Ypos, w, h);
 		frame.getContentPane().add(textField4);
 		
 		textField5 = new JTextField();
 		textField5.setColumns(10);
-		textField5.setBounds(x, tankPanel.getHeight()-(sensorPosSection*10)+tankPanel.getY(), w, h);
+		int textField5Ypos=tankPanel.getHeight()-(sensorPosSection*10)+tankPanel.getY();
+		textField5.setBounds(x, textField5Ypos, w, h);
 		frame.getContentPane().add(textField5);
 		
 		textField6 = new JTextField();
 		textField6.setColumns(10);
-		textField6.setBounds(x, tankPanel.getHeight()-(sensorPosSection*12)+tankPanel.getY(), w, h);
+		int textField6Ypos=tankPanel.getHeight()-(sensorPosSection*12)+tankPanel.getY();
+		textField6.setBounds(x, textField6Ypos, w, h);
 		frame.getContentPane().add(textField6);
 		
 		textField7 = new JTextField();
 		textField7.setColumns(10);
-		textField7.setBounds(x, tankPanel.getHeight()-(sensorPosSection*14)+tankPanel.getY(), w, h);
+		int textField7Ypos=tankPanel.getHeight()-(sensorPosSection*14)+tankPanel.getY();
+		textField7.setBounds(x, textField7Ypos, w, h);
 		frame.getContentPane().add(textField7);
+		
+		ArrayList<Integer> positions = new ArrayList<>();
+		positions.add(textField1Ypos*2);
+		positions.add(textField2Ypos*2);
+		positions.add(textField3Ypos*2);
+		positions.add(textField4Ypos*2);
+		positions.add(textField5Ypos*2);
+		positions.add(textField6Ypos*2);
+		positions.add(textField7Ypos*2);
+		
+		ArrayList<Float> temps = tankPanel.getSensorValues(positions);
+//		temps.add(new Float("5.34"));
+//		temps.add(new Float("6.34"));
+//		temps.add(new Float("7.34"));
+//		temps.add(new Float("8.34"));
+//		temps.add(new Float("9.34"));
+//		temps.add(new Float("10.34"));
+//		temps.add(new Float("11.34"));
+		
+		updateTemperatureReadings(temps);
+	}
+	
+	public void updateTemperatureReadings(ArrayList<Float> temps ) {
+		for(int i=1;i<8;i++) {
+			setTemp(i,temps.get(i-1));
+		}
+	}
+
+	private void setTemp(int i, float val) {
+		BigDecimal bigDecimal=new BigDecimal(val);
+		String value = bigDecimal.setScale(2, RoundingMode.HALF_UP).toString()+"°C";
+		switch(i) {
+		case 1:{
+			textField1.setText(value);
+		}break;
+		case 2:{
+			textField2.setText(value);
+		}break;
+		case 3:{
+			textField3.setText(value);
+		}break;
+		case 4:{
+			textField4.setText(value);
+		}break;
+		case 5:{
+			textField5.setText(value);
+		}break;
+		case 6:{
+			textField6.setText(value);
+		}break;
+		case 7:{
+			textField7.setText(value);
+		}break;
+		}
+		
 	}
 }
