@@ -14,6 +14,12 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.JTextField;
+import javax.swing.JSlider;
+import javax.swing.JLabel;
+import javax.swing.JToggleButton;
+import javax.swing.SwingConstants;
+import com.ks22valluga.visualisation.ToggleSwitch;
+import java.awt.Font;
 
 public class TankApp {
 
@@ -54,6 +60,8 @@ public class TankApp {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.setVisible(true);
+		frame.setAlwaysOnTop(true);
 		frame.setBounds(10, 10, 705, 650);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -114,6 +122,46 @@ public class TankApp {
 		int textField7Ypos=tankPanel.getHeight()-(sensorPosSection*14)+tankPanel.getY();
 		textField7.setBounds(x, textField7Ypos, w, h);
 		frame.getContentPane().add(textField7);
+		
+		JPanel panel = new JPanel();
+		panel.setBounds(412, 52, 245, 69);
+		frame.getContentPane().add(panel);
+		panel.setLayout(null);
+		
+		JSlider slider = new JSlider();
+		slider.setSnapToTicks(true);
+		slider.setMinorTickSpacing(5);
+		slider.setMajorTickSpacing(10);
+		slider.setPaintLabels(true);
+		slider.setPaintTicks(true);
+		slider.setBounds(0, 25, 245, 44);
+		panel.add(slider);
+		slider.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		slider.setValue(0);
+		
+		JLabel lblNewLabel = new JLabel("Draw");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblNewLabel.setBounds(0, 0, 46, 14);
+		panel.add(lblNewLabel);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBounds(411, 132, 45, 45);
+		frame.getContentPane().add(panel_1);
+		panel_1.setLayout(null);
+		
+		JLabel lblNewLabel_1 = new JLabel("On/Off");
+		lblNewLabel_1.setBounds(0, 0, 46, 14);
+		panel_1.add(lblNewLabel_1);
+		
+		ToggleSwitch toggleSwitch = new ToggleSwitch();
+		toggleSwitch.setBounds(0, 22, 46, 29);
+		panel_1.add(toggleSwitch);
+		toggleSwitch.setBackground(Color.BLACK);
+		toggleSwitch.setButtonColor(Color.WHITE);
+		toggleSwitch.setActiveSwitch(Color.RED);
+		toggleSwitch.setActivated(true);
+		toggleSwitch.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		toggleSwitch.setLayout(null);
 		
 		ArrayList<Integer> positions = new ArrayList<>();
 		positions.add(textField1Ypos*2);
