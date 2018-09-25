@@ -1,0 +1,19 @@
+{
+	"description": "Default configuraion of tank sim visulisation",
+	"name": "tankConfiguration",
+	"jarfilelocation": "location",
+	"records": [
+		{
+			"scenarioname": "a name",
+			"classname": "class name 1"
+		},
+		{
+			"scenarioname": "a name",
+			"classname": "class name 2"
+		},
+		{
+			"scenarioname": "a name",
+			"classname": "class name 3"
+		}
+	]
+}

@@ -21,7 +21,9 @@ public class HotWaterControlPanel extends JPanel {
 	private ScenarioTypeEnum ste;
 	private final String defaultSTE="Hot water bottom coil mid tank direct sensor";
 
-	private ToggleSwitch toggleSwitch; 
+	private ToggleSwitch toggleSwitch;
+	private JPanel onOff1;
+	private JLabel onOffLabel; 
 
 	public HotWaterControlPanel(String typeString) {
 
@@ -69,56 +71,30 @@ public class HotWaterControlPanel extends JPanel {
 
 		}
 			break;
-		case bottomCoilMidNonInvSensor: {
-			// Setup control panel general
-			setupPanelGeneral();
-			
-			
-			//add on/off switch ,draw controls flow rate and turbulence, hot water coil, coil temp
-		//	addOnOffControl();
-			removeOnOffControls();
-			
-			addDrawControls();
-
-		}
-			break;
+		
 		case bottomCoilTriInvSensor: {
 
 		}
 			break;
-		case bottomCoilTriNonInvSensor: {
-
-		}
-			break;
+		
+		
 		case topImmersionMidInvSensor: {
 
 		}
 			break;
-		case topImmersionMidNonInvSensor: {
-
-		}
-			break;
+		
 		case topImmersionTriInvSensor: {
 
 		}
 			break;
-		case topImmersionTriNonInvSensor: {
-
-		}
-			break;
-		default: {
+			default: {
 			throw new IllegalArgumentException(
 					"There is not a case match for ScenarioTypeEnum " + ste.name() + "," + ste.getTypeName());
 		}
 		}
 	}
 
-	private void removeOnOffControls() {
-		ToggleSwitch ts = new ToggleSwitch();
-		this.remove(this.toggleSwitch);
-		this.validate();
-		
-	}
+
 
 	private void addDrawControls() {
 		
@@ -182,7 +158,7 @@ public class HotWaterControlPanel extends JPanel {
 		// Setup control panel general
 		Border lineBorder = new LineBorder(Color.DARK_GRAY);
 //		hotWaterControlPanel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Hot Water Control", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
-		setBorder(new TitledBorder(lineBorder, "Hot Water Control2", TitledBorder.LEADING, TitledBorder.TOP, null,
+		setBorder(new TitledBorder(lineBorder, "Hot Water Control", TitledBorder.LEADING, TitledBorder.TOP, null,
 				Color.BLACK));
 		setBounds(390, 190, 289, 280);
 		setLayout(null);
@@ -190,14 +166,14 @@ public class HotWaterControlPanel extends JPanel {
 	}
 	
 	private void addOnOffControl() {
-		JPanel onOff1 = new JPanel();
+		this.onOff1 = new JPanel();
 		onOff1.setBounds(10, 23, 70, 58);
 		onOff1.setBorder(new LineBorder(Color.GRAY));
 		onOff1.setLayout(null);
 		
 		add(onOff1);
 		
-		JLabel onOffLabel = new JLabel("On/Off");
+		this.onOffLabel = new JLabel("On/Off");
 		onOffLabel.setBounds(10, 11, 46, 14);
 		
 		onOff1.add(onOffLabel);
@@ -214,7 +190,9 @@ public class HotWaterControlPanel extends JPanel {
 	}
 
 public void switchControls(String scenario) {
+
 	constructUI(scenario);
+	validate();
 }
 
 }
