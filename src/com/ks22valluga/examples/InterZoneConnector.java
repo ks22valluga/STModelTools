@@ -11,40 +11,41 @@ public class InterZoneConnector {
     private SimpleTEntity root;
     private SimpleTEntity endA,endB;
     private SimpleTEntity child11, child21, child31, child41, child51, child61;
-    private ArrayList<SimpleTEntity> chain = new ArrayList<>();
+    ArrayList<SimpleTEntity> chain;
+ 
 
     public static void main(String[] args) {
 
 	InterZoneConnector zn = new InterZoneConnector();
 
 	// set zone temp 19.5 = 1950
-	for (SimpleTEntity ste : zn.chain) {
+	for (SimpleTEntity ste : zn.getChain()) {
 	    ste.setTemp(0);
 	}
 	// set root to boiler temp 60deg
-	zn.root.setFixedTemp(4000f);
+	zn.getRoot().setFixedTemp(4000f);
 
 	// set ext temp 2 deg
-	zn.child61.setFixedTemp(0f);
-	zn.child61.setMass(1900f);
+	zn.getChild61().setFixedTemp(0f);
+	zn.getChild61().setMass(1900f);
 
 	// set mass on adjacent node
 
 
 	StringBuilder sb = new StringBuilder();
 	sb.append("Min,");
-	for (SimpleTEntity ste : zn.chain) {
+	for (SimpleTEntity ste : zn.getChain()) {
 	    sb.append(ste.getFriendlyName() + ",");
 	}
 	System.out.println(sb.toString());
 
 	for (int i = 0; i < 10000; i++) {
-	    zn.root.update();
+	    zn.getRoot().update();
 	    if (i != 1500) {
 		sb = new StringBuilder();
 
 		sb.append(i + ",");
-		for (SimpleTEntity ste : zn.chain) {
+		for (SimpleTEntity ste : zn.getChain()) {
 		    sb.append(ste.getTemp() + ",");
 		}
 		System.out.println(sb.toString());
@@ -76,12 +77,14 @@ public class InterZoneConnector {
     }
 
     public InterZoneConnector() {
-	root = new SimpleTEntity(null, 500, 0, 5, "root");
-	chain.add(root);
-	float tempRoot = root.getTemp();
+    	
+    chain = new ArrayList<>();	
+	setRoot(new SimpleTEntity(null, 500, 0, 5, "root"));
+	chain.add(getRoot());
+	float tempRoot = getRoot().getTemp();
 
-	root.addChild(500, 0, 5, "child11");
-	child11 = root.getChildren()[0];
+	getRoot().addChild(500, 0, 5, "child11");
+	child11 = getRoot().getChildren()[0];
 	chain.add(child11);
 	float tempChild1 = child11.getTemp();
 
@@ -90,7 +93,7 @@ public class InterZoneConnector {
 	chain.add(child21);
 	float tempChild21 = child21.getTemp();
 
-	child21.addChild(500, 0, 5, "child31");
+	child21.addChild(50000, 0, 1, "child31");
 	child31 = child21.getChildren()[0];
 	chain.add(child31);
 
@@ -106,10 +109,31 @@ public class InterZoneConnector {
 	float tempChild51 = child51.getTemp();
 
 	child51.addChild(500, 0, 5, "child61");
-	child61 = child51.getChildren()[0];
-	chain.add(child61);
-	float tempChild61 = child61.getTemp();
+	setChild61(child51.getChildren()[0]);
+	chain.add(getChild61());
+	float tempChild61 = getChild61().getTemp();
 
     }
+
+	public ArrayList<SimpleTEntity> getChain() {
+		return chain;
+	}
+
+
+	public SimpleTEntity getRoot() {
+		return root;
+	}
+
+	public void setRoot(SimpleTEntity root) {
+		this.root = root;
+	}
+
+	public SimpleTEntity getChild61() {
+		return child61;
+	}
+
+	public void setChild61(SimpleTEntity child61) {
+		this.child61 = child61;
+	}
 
 }
